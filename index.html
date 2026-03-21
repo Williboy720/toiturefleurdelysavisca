@@ -430,7 +430,8 @@ function updateCarousel(){
   const vp=document.getElementById('carouselViewport');
   const track=document.getElementById('carouselTrack');
   const w=vp.offsetWidth;
-  track.querySelectorAll('.review-card').forEach(c=>{c.style.minWidth=w+'px';c.style.maxWidth=w+'px'});
+  if(w===0)return;
+  track.querySelectorAll('.review-card').forEach(c=>{c.style.minWidth=w+'px';c.style.maxWidth=w+'px';c.style.width=w+'px'});
   track.style.transform='translateX(-'+(current*w)+'px)';
   document.querySelectorAll('#carouselDots .dot').forEach((d,i)=>d.classList.toggle('active',i===current));
 }
@@ -443,7 +444,13 @@ function copyText(text,event){
     setTimeout(()=>b.textContent='📋',1500);
   });
 }
-window.addEventListener('load',updateCarousel);
+function toggleSection(id){
+  document.getElementById(id).classList.toggle('open');
+  if(id==='sec-avis'){setTimeout(updateCarousel,50);}
+}
+window.addEventListener('load',function(){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('open');});
+});
 window.addEventListener('resize',updateCarousel);
 </script>
 </body>
